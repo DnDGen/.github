@@ -1,12 +1,12 @@
 # Rogante Marendor -DnDGen Main Theme-
 
-[![Rogante Marendor album art](cover.png)](https://suno.com)
+[![Rogante Marendor album art](cover.png)](https://suno.com/s/bv8TJG5bYGeL21dp)
 
 The DnDGen theme song: an orchestral boss battle theme, sung by a choir in Latin and Middle High German.
 It is the overture for the whole organization, so its lyrics come from the [organization README](../profile/README.md),
 and it introduces the leitmotif for each generator.
 
-**Listen on [Suno](https://suno.com).**
+**Listen on [Suno](https://suno.com/s/bv8TJG5bYGeL21dp).**
 
 ## Remixing
 
