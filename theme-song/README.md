@@ -125,6 +125,23 @@ The choir shouts them in the Boss Battle, and each repository's own theme song s
 | [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Enge Nocturne | A narrow pass at night: an ambush |
 | [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Ongen Gunde | Old High German *gund*: battle |
 
+## Soundtrack Plan
+
+Each repository will get its own theme, like the areas of an RPG soundtrack: different genres, tied together by their leitmotifs.
+These genres are proposals, and each is confirmed when its song is written.
+
+| Repository | Genre | Area |
+|---|---|---|
+| [Stress](https://github.com/DnDGen/DnDGen.Stress) | Dwarven forge song: folk metal with anvil percussion | The forge, proving steel by striking it over and over |
+| [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song | The tavern |
+| [TreasureGen](https://github.com/DnDGen/DnDGen.TreasureGen) | Pirate shanty | The treasure hunt |
+| [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
+| [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
+| [CreatureGen](https://github.com/DnDGen/DnDGen.CreatureGen) | Dark Nordic folk | The bestiary |
+| [CharacterGen](https://github.com/DnDGen/DnDGen.CharacterGen) | Troubadour ballad | One hero's story |
+| [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant | The scripture everything is built on |
+| [Web](https://github.com/DnDGen/DnDGen.Web) | Royal herald fanfare | Announcing it all to the public |
+
 ## Suno Notes
 
 Lessons from generating this song, for the next remix:
