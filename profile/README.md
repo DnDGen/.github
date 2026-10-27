@@ -32,3 +32,4 @@ So DnDGen tests heavily: over 100,000 tests, plus stress tests that run each gen
 | | Track | Leitmotif | |
 |---|---|---|---|
 | <a href="https://github.com/DnDGen/.github/blob/main/theme-song/README.md"><img src="https://github.com/DnDGen/.github/raw/main/theme-song/cover.png" alt="Rogante Marendor album art" width="80"></a> | **Rogante Marendor** -DnDGen Main Theme- | *Rogante Marendor* | [Listen](https://suno.com/s/bv8TJG5bYGeL21dp) · [Lyrics and notes](https://github.com/DnDGen/.github/blob/main/theme-song/README.md) |
+| <a href="https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md"><img src="https://github.com/DnDGen/DnDGen.Stress/raw/main/docs/theme-song/cover.png" alt="Over and Over album art" width="80"></a> | **Over and Over** -DnDGen.Stress Theme- | | [Listen](https://suno.com/s/TLKVK477Efrel4u8) · [Lyrics and notes](https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md) |
