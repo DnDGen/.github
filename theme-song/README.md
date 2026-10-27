@@ -113,7 +113,8 @@ The MHG is approximate.
 ## Leitmotifs
 
 Each generator has a secret name: an anagram of its repository name.
-The choir shouts them in the Boss Battle, and each repository's own theme song should bring its name back.
+The choir shouts them in the Boss Battle, and each generator's own theme song should bring its name back.
+The support libraries (Stress, Infrastructure, and Web) have no leitmotif: their songs describe their READMEs as they are.
 
 | Repository | Leitmotif | Meaning |
 |---|---|---|
@@ -128,11 +129,11 @@ The choir shouts them in the Boss Battle, and each repository's own theme song s
 ## Soundtrack Plan
 
 Each repository will get its own theme, like the areas of an RPG soundtrack: different genres, tied together by their leitmotifs.
-These genres are proposals, and each is confirmed when its song is written.
+These genres are proposals until each song is written; a written song's row links to it.
 
 | Repository | Genre | Area |
 |---|---|---|
-| [Stress](https://github.com/DnDGen/DnDGen.Stress) | Dwarven forge song: folk metal with anvil percussion | The forge, proving steel by striking it over and over |
+| [Stress](https://github.com/DnDGen/DnDGen.Stress) | Forge folk metal: [listen](https://suno.com/s/TLKVK477Efrel4u8) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md) | The forge, proving steel by striking it over and over |
 | [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song | The tavern |
 | [TreasureGen](https://github.com/DnDGen/DnDGen.TreasureGen) | Pirate shanty | The treasure hunt |
 | [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
@@ -141,6 +142,20 @@ These genres are proposals, and each is confirmed when its song is written.
 | [CharacterGen](https://github.com/DnDGen/DnDGen.CharacterGen) | Troubadour ballad | One hero's story |
 | [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant | The scripture everything is built on |
 | [Web](https://github.com/DnDGen/DnDGen.Web) | Royal herald fanfare | Announcing it all to the public |
+
+## New Theme Songs
+
+Every repository gets a theme song, including any new one:
+
+1. **Plan it.** Add the repository to the Soundtrack Plan with a proposed genre and area. A generator also gets a
+   leitmotif, an anagram of its repository name; the support libraries don't.
+2. **Write it from the README.** The lyrics come from the repository's README, sung as words, never as code: no
+   method calls, property names, commands, or formulas. The song is recorded in that repository's
+   `docs/theme-song/README.md`, with its sources, album art, and update procedure.
+   [DnDGen.Stress](https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md) is the first example.
+3. **Start from the main theme.** Every draft before the song first merges (v0.1, v0.2, and so on) is a fresh
+   generation that Samples this song's "Rogante Marendor" snippet, 3:00.0 to 3:17.1. The take that merges is v1,
+   and each update after that Covers the repository's current song instead.
 
 ## Suno Notes
 
