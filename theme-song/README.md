@@ -134,7 +134,7 @@ These genres are proposals until each song is written; a written song's row link
 | Repository | Genre | Area |
 |---|---|---|
 | [Stress](https://github.com/DnDGen/DnDGen.Stress) | Forge folk metal: [listen](https://suno.com/s/TLKVK477Efrel4u8) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md) | The forge, proving steel by striking it over and over |
-| [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song | The tavern |
+| [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song: [listen](https://suno.com/s/RvnVPcPR4ZTGIEt7) · [lyrics and notes](https://github.com/DnDGen/DnDGen.RollGen/blob/main/docs/theme-song/README.md) | The tavern |
 | [TreasureGen](https://github.com/DnDGen/DnDGen.TreasureGen) | Pirate shanty | The treasure hunt |
 | [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
 | [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
