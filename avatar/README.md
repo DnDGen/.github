@@ -15,6 +15,7 @@ which is GitHub's web page about the file rather than the image itself.
 | File | Size | For |
 |---|---|---|
 | [avatar.svg](avatar.svg) | Any | The source for all the others; also the site's SVG icon |
+| [avatar-transparent.svg](avatar-transparent.svg) | Any | Just the d20, with no background and cropped to its edges, for a logo on a background of its own, like the site's navigation bar |
 | [avatar.png](avatar.png) | 1000 × 1000 | The organisation avatar at [github.com/DnDGen](https://github.com/DnDGen), which every repository shows too |
 | [avatar-512.png](avatar-512.png) | 512 × 512 | Web app manifest |
 | [avatar-192.png](avatar-192.png) | 192 × 192 | Web app manifest |
@@ -42,6 +43,13 @@ A site can link to the raw files from its `<head>`:
 Browsers and other tools that ask the site itself for `/favicon.ico` won't follow these links, so the site may still
 want `favicon.ico` at its root.
 
+For a logo beside the DnDGen name, such as in the navigation bar, `avatar-transparent.svg` sits on the bar's own
+colour instead of a dark blue square:
+
+```html
+<img src="https://raw.githubusercontent.com/DnDGen/.github/main/avatar/avatar-transparent.svg" alt="" height="32"> DnDGen
+```
+
 ## Rendering
 
 Every PNG and `favicon.ico` is rendered from [avatar.svg](avatar.svg) by [render.ps1](render.ps1), with headless Edge:
@@ -58,3 +66,6 @@ window much smaller than 500 pixels. After changing `avatar.svg`, run it again a
 - The d20 is the dndgen.com loading spinner, from [DnDGen.Web](https://github.com/DnDGen/DnDGen.Web/blob/main/dndgen-web/src/assets/loadingDice.svg),
   originally from [a gist by hperantunes](https://gist.github.com/hperantunes/f4c2fd407c2ea74c6c9d).
   A change to the d20 in the album art should be made here as well.
+- `avatar-transparent.svg` isn't rendered: it's only needed as an SVG. It has its own copy of the d20, with the same
+  colour and outline, since an SVG loaded as an image can't use another file. A change to the d20 in `avatar.svg`
+  should be made there as well.
