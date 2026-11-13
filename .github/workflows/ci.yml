@@ -1,0 +1,48 @@
+name: CI
+
+# Checks what this repository shares with the rest of DnDGen: the scripts every library's
+# build runs, and the workflows that run them.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  scripts:
+    name: scripts
+    # The same runner the libraries' builds run the scripts on.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Test the shared scripts
+        run: |
+          Import-Module Pester -MinimumVersion 5.0
+          $configuration = New-PesterConfiguration
+          $configuration.Run.Path = 'scripts'
+          $configuration.Run.Exit = $true
+          $configuration.Output.Verbosity = 'Detailed'
+          Invoke-Pester -Configuration $configuration
+
+  workflows:
+    name: workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Lint the workflows
+        run: docker run --rm --volume "$PWD:/repo" --workdir /repo rhysd/actionlint:1.7.7 -color
