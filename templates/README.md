@@ -1,13 +1,18 @@
 # Building and releasing a DnDGen library
 
 Every DnDGen NuGet library builds and releases the same way, so the workflows live here, in
-[.github/workflows](../.github/workflows), and each library calls them from two short files of
-its own.
+[.github/workflows](../.github/workflows) and [actions](../actions), and each library calls them
+from two short files of its own.
 
-| Shared workflow | What it does |
+| Shared piece | What it does |
 |---|---|
-| [nuget-build.yml](../.github/workflows/nuget-build.yml) | Checks the csproj `<Version>` is greater than every release, builds the library, runs its tests with coverage, checks coverage is no lower than the latest release's, and uploads the package and the coverage report |
-| [nuget-release.yml](../.github/workflows/nuget-release.yml) | Pushes the package to nuget.org with Trusted Publishing, then tags the commit and creates the GitHub release with the package and coverage report attached |
+| [nuget-build.yml](../.github/workflows/nuget-build.yml) | A reusable workflow. Checks the csproj `<Version>` is greater than every release, builds the library, runs its tests with coverage, checks coverage is no lower than the latest release's, and uploads the package and the coverage report |
+| [nuget-publish](../actions/nuget-publish/action.yml) | A composite action. Pushes the package to nuget.org, logging in with Trusted Publishing |
+| [nuget-release.yml](../.github/workflows/nuget-release.yml) | A reusable workflow. Tags the commit and creates the GitHub release, with the package and coverage report attached |
+
+Publishing is an action, used from a job in the library's own `release.yml`, rather than a
+reusable workflow: nuget.org only accepts a Trusted Publishing token from a job defined in the
+package's own repository.
 
 The scripts behind those checks are in [scripts](../scripts), with their Pester tests. This
 repository's [CI](../.github/workflows/ci.yml) runs those tests, so the libraries don't.
@@ -47,7 +52,7 @@ repository's [CI](../.github/workflows/ci.yml) runs those tests, so the librarie
 
 ## Versions
 
-Libraries call the workflows at `@v1`. A change that keeps every library working moves the
+Libraries call the workflows and the action at `@v1`. A change that keeps every library working moves the
 `v1` tag forward; a change that breaks a caller starts `v2`. `nuget-build.yml` checks out the
 scripts at its `tooling-ref` input, which defaults to `v1` too. To try a change from a branch,
 point a library's `uses:` at the branch and pass the same branch as `tooling-ref`.

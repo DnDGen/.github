@@ -1,0 +1,39 @@
+name: Publish to NuGet.org
+description: >-
+  Pushes the package that nuget-build.yml uploaded in the same run to nuget.org, logging in with
+  Trusted Publishing.
+
+# A composite action, not a reusable workflow, because nuget.org only accepts a Trusted Publishing
+# token from a job defined in the package's own repository: it checks that the token's
+# job_workflow_ref starts with <owner>/<repository>/.github/workflows/. A composite action runs as
+# steps inside the library's own release.yml job, so the token comes from that job.
+#
+# The calling job needs `permissions: id-token: write`, and its `environment` is the one the
+# nuget.org policy names, if any.
+
+inputs:
+  nuget-user:
+    description: The nuget.org account whose Trusted Publishing policy covers this repository
+    required: false
+    default: cidthecoatrack
+
+runs:
+  using: composite
+  steps:
+    - name: Download package
+      uses: actions/download-artifact@v8
+      with:
+        name: package
+        path: package
+
+    - name: Log in to NuGet with Trusted Publishing
+      id: login
+      uses: NuGet/login@v1
+      with:
+        user: ${{ inputs.nuget-user }}
+
+    - name: Push to NuGet.org
+      shell: bash
+      env:
+        NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+      run: dotnet nuget push "package/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
