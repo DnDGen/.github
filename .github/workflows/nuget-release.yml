@@ -1,0 +1,80 @@
+name: NuGet release
+
+# Publishes a DnDGen NuGet library that nuget-build.yml has already built and checked in the
+# same run, then tags it and creates its GitHub release. A library calls it from its own
+# release.yml, after nuget-build.yml: see templates/README.md.
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: The version to release, from nuget-build.yml's version output
+        required: true
+        type: string
+      environment:
+        description: The deployment environment that guards the NuGet push
+        required: false
+        type: string
+        default: Prod
+      nuget-user:
+        description: The nuget.org account whose Trusted Publishing policy covers this repository
+        required: false
+        type: string
+        default: cidthecoatrack
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: publish
+    # Forks run the checks but never publish.
+    if: github.repository_owner == 'DnDGen'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@v8
+        with:
+          name: package
+          path: package
+
+      - name: Log in to NuGet with Trusted Publishing
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ inputs.nuget-user }}
+
+      - name: Push to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push "package/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+
+  release:
+    name: release
+    needs: publish
+    if: github.repository_owner == 'DnDGen'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@v8
+        with:
+          name: package
+          path: package
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v8
+        with:
+          name: coverage
+          path: coverage
+
+      - name: Create the GitHub release and tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: gh release create "$VERSION" package/*.nupkg coverage/coverage.cobertura.xml --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "$VERSION" --generate-notes

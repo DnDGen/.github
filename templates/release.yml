@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    uses: DnDGen/.github/.github/workflows/nuget-build.yml@v1
+    with:
+      project: DnDGen.YourGen
+
+  release:
+    name: release
+    needs: build
+    uses: DnDGen/.github/.github/workflows/nuget-release.yml@v1
+    with:
+      version: ${{ needs.build.outputs.version }}
+    permissions:
+      contents: write
+      id-token: write

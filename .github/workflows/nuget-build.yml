@@ -1,0 +1,139 @@
+name: NuGet build
+
+# Builds and checks a DnDGen NuGet library, for its pull requests and before its releases.
+# A library calls it from its own build.yml and release.yml: see templates/README.md.
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: The library's project name, such as DnDGen.RollGen. Its csproj is <project>/<project>.csproj.
+        required: true
+        type: string
+      tooling-ref:
+        description: The ref of DnDGen/.github whose scripts the checks run. Keep it the same as the ref this workflow is called at.
+        required: false
+        type: string
+        default: v1
+    outputs:
+      version:
+        description: The csproj <Version>, checked to be greater than the latest release
+        value: ${{ jobs.check.outputs.version }}
+
+permissions:
+  contents: read
+
+# Named, not ${{ github.workflow }}: when a release calls this workflow, github.workflow is
+# the caller's name, and sharing the caller's group would deadlock the run.
+concurrency:
+  group: nuget-build-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  check:
+    name: check
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PROJECT: ${{ inputs.project }}
+      TOOLING: .dndgen
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # After the library's own checkout, which would otherwise clean this folder away.
+      - name: Checkout the shared DnDGen scripts
+        uses: actions/checkout@v7
+        with:
+          repository: DnDGen/.github
+          ref: ${{ inputs.tooling-ref }}
+          path: ${{ env.TOOLING }}
+          sparse-checkout: scripts
+
+      - name: Check the version is newer than the latest release
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = ([xml](Get-Content -Path "$env:PROJECT/$env:PROJECT.csproj" -Raw)).Project.PropertyGroup.Version
+          $released = @(gh release list --limit 1000 --json tagName --jq '.[].tagName')
+          if ($LASTEXITCODE -ne 0) { throw 'Could not list the releases.' }
+          & "$env:TOOLING/scripts/Assert-VersionIsNewer.ps1" -Version $version -ReleasedVersions $released
+          $latest = $released | Sort-Object { [version]($_ -replace '^v', '') } -Descending | Select-Object -First 1
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "latest=$latest" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Build
+        run: dotnet build "$env:PROJECT/$env:PROJECT.csproj" --configuration Release
+
+      # One step per test tier, fastest first, so a failing tier stops the slower ones after it.
+      # A library without a tier skips its step.
+      - name: Unit tests
+        if: hashFiles(format('{0}.Tests.Unit/{0}.Tests.Unit.csproj', inputs.project)) != ''
+        env:
+          TESTS: ${{ inputs.project }}.Tests.Unit
+        run: dotnet test "$env:TESTS/$env:TESTS.csproj" -v normal --collect "Code Coverage;Format=cobertura" --settings CodeCoverage.runsettings --results-directory TestResults
+
+      - name: IoC tests
+        if: hashFiles(format('{0}.Tests.Integration.IoC/{0}.Tests.Integration.IoC.csproj', inputs.project)) != ''
+        env:
+          TESTS: ${{ inputs.project }}.Tests.Integration.IoC
+        run: dotnet test "$env:TESTS/$env:TESTS.csproj" -v normal --collect "Code Coverage;Format=cobertura" --settings CodeCoverage.runsettings --results-directory TestResults
+
+      - name: Table tests
+        if: hashFiles(format('{0}.Tests.Integration.Tables/{0}.Tests.Integration.Tables.csproj', inputs.project)) != ''
+        env:
+          TESTS: ${{ inputs.project }}.Tests.Integration.Tables
+        run: dotnet test "$env:TESTS/$env:TESTS.csproj" -v normal --collect "Code Coverage;Format=cobertura" --settings CodeCoverage.runsettings --results-directory TestResults
+
+      - name: Integration tests
+        if: hashFiles(format('{0}.Tests.Integration/{0}.Tests.Integration.csproj', inputs.project)) != ''
+        env:
+          TESTS: ${{ inputs.project }}.Tests.Integration
+        run: dotnet test "$env:TESTS/$env:TESTS.csproj" -v normal --collect "Code Coverage;Format=cobertura" --settings CodeCoverage.runsettings --results-directory TestResults
+
+      - name: Stress tests
+        if: hashFiles(format('{0}.Tests.Integration.Stress/{0}.Tests.Integration.Stress.csproj', inputs.project)) != ''
+        env:
+          TESTS: ${{ inputs.project }}.Tests.Integration.Stress
+        run: dotnet test "$env:TESTS/$env:TESTS.csproj" -v normal --configuration Stress --collect "Code Coverage;Format=cobertura" --settings CodeCoverage.runsettings --results-directory TestResults
+
+      - name: Check coverage is no lower than the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LATEST: ${{ steps.version.outputs.latest }}
+        run: |
+          $reports = @(Get-ChildItem -Path TestResults -Recurse -Filter *.cobertura.xml)
+          if (-not $reports) { throw 'The test run produced no coverage report.' }
+          # Each test project writes its own report; the union of them is the library's coverage.
+          dotnet tool install --global dotnet-coverage
+          if ($LASTEXITCODE -ne 0) { throw 'Could not install dotnet-coverage.' }
+          dotnet-coverage merge @($reports.FullName) --output coverage.cobertura.xml --output-format cobertura
+          if ($LASTEXITCODE -ne 0) { throw 'Could not merge the coverage reports.' }
+          if ($env:LATEST) {
+            gh release download $env:LATEST --pattern coverage.cobertura.xml --dir baseline
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "Release $env:LATEST has no coverage report to download."
+              $global:LASTEXITCODE = 0
+            }
+          }
+          & "$env:TOOLING/scripts/Assert-CoverageNotLower.ps1" -ReportPath coverage.cobertura.xml -BaselinePath baseline/coverage.cobertura.xml
+
+      - name: Upload coverage report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: coverage.cobertura.xml
+          if-no-files-found: ignore
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: package
+          path: ${{ inputs.project }}/bin/Release/${{ inputs.project }}.*.nupkg
+          if-no-files-found: error
