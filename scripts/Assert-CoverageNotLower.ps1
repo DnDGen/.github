@@ -47,8 +47,11 @@ function Format-Coverage {
     return "$($Count.Covered)/$($Count.Valid) ($percent%)"
 }
 
+# The release job fails if it can't attach a coverage report, so a missing baseline means there
+# is nothing to compare against yet: no release, or one made before releases carried a report.
 if (-not (Test-Path -Path $BaselinePath)) {
-    throw "No coverage report for the latest release: $BaselinePath."
+    Write-Host "::warning title=No coverage baseline::No coverage report for the latest release to compare against: $BaselinePath. Skipping the coverage check."
+    return
 }
 
 $change = Get-Coverage $ReportPath

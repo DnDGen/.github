@@ -77,13 +77,13 @@ Describe 'Assert-CoverageNotLower' {
     }
 
     Context 'As a workflow run checking a change, when the latest release has no coverage report' {
-        It 'Should fail, naming the missing report' {
+        It 'Should pass with a warning, naming the missing report' {
             $report = New-CoverageReport -Name 'change' -LinesCovered 215 -LinesValid 215 -BranchesCovered 58 -BranchesValid 58
             $missing = Join-Path $TestDrive 'missing.cobertura.xml'
 
-            $failure = { & $Script -ReportPath $report -BaselinePath $missing } | Should -Throw -PassThru
+            $output = & $Script -ReportPath $report -BaselinePath $missing 6>&1
 
-            $failure.Exception.Message | Should -Be "No coverage report for the latest release: $missing."
+            $output | Should -Be "::warning title=No coverage baseline::No coverage report for the latest release to compare against: $missing. Skipping the coverage check."
         }
     }
 
