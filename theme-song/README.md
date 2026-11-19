@@ -140,7 +140,7 @@ These genres are proposals until each song is written; a written song's row link
 | [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
 | [CreatureGen](https://github.com/DnDGen/DnDGen.CreatureGen) | Dark Nordic folk | The bestiary |
 | [CharacterGen](https://github.com/DnDGen/DnDGen.CharacterGen) | Troubadour ballad | One hero's story |
-| [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant | The scripture everything is built on |
+| [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant: [listen](https://suno.com/s/xemh9NeqXMYfCxrq) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Infrastructure/blob/main/docs/theme-song/README.md) | The scripture everything is built on |
 | [Web](https://github.com/DnDGen/DnDGen.Web) | Cabaret opening number: [listen](https://suno.com/s/ragoh4wenmvNWsgv) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | Announcing it all to the public |
 
 ## New Theme Songs
