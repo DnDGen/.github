@@ -135,12 +135,12 @@ These genres are proposals until each song is written; a written song's row link
 |---|---|---|
 | [Stress](https://github.com/DnDGen/DnDGen.Stress) | Forge folk metal: [listen](https://suno.com/s/TLKVK477Efrel4u8) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Stress/blob/main/docs/theme-song/README.md) | The forge, proving steel by striking it over and over |
 | [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song: [listen](https://suno.com/s/RvnVPcPR4ZTGIEt7) · [lyrics and notes](https://github.com/DnDGen/DnDGen.RollGen/blob/main/docs/theme-song/README.md) | The tavern |
+| [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant: [listen](https://suno.com/s/xemh9NeqXMYfCxrq) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Infrastructure/blob/main/docs/theme-song/README.md) | The scripture everything is built on |
 | [TreasureGen](https://github.com/DnDGen/DnDGen.TreasureGen) | Pirate shanty | The treasure hunt |
-| [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
-| [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
 | [CreatureGen](https://github.com/DnDGen/DnDGen.CreatureGen) | Dark Nordic folk | The bestiary |
 | [CharacterGen](https://github.com/DnDGen/DnDGen.CharacterGen) | Troubadour ballad | One hero's story |
-| [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant | The scripture everything is built on |
+| [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
+| [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
 | [Web](https://github.com/DnDGen/DnDGen.Web) | Cabaret opening number: [listen](https://suno.com/s/ragoh4wenmvNWsgv) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Web/blob/main/docs/theme-song/README.md) | Announcing it all to the public |
 
 ## New Theme Songs
