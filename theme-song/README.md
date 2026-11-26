@@ -137,7 +137,7 @@ These genres are proposals until each song is written; a written song's row link
 | [RollGen](https://github.com/DnDGen/DnDGen.RollGen) | Tavern gambling and drinking song: [listen](https://suno.com/s/RvnVPcPR4ZTGIEt7) · [lyrics and notes](https://github.com/DnDGen/DnDGen.RollGen/blob/main/docs/theme-song/README.md) | The tavern |
 | [Infrastructure](https://github.com/DnDGen/DnDGen.Infrastructure) | Gregorian chant: [listen](https://suno.com/s/xemh9NeqXMYfCxrq) · [lyrics and notes](https://github.com/DnDGen/DnDGen.Infrastructure/blob/main/docs/theme-song/README.md) | The scripture everything is built on |
 | [TreasureGen](https://github.com/DnDGen/DnDGen.TreasureGen) | Pirate shanty | The treasure hunt |
-| [CreatureGen](https://github.com/DnDGen/DnDGen.CreatureGen) | Dark Nordic folk | The bestiary |
+| [CreatureGen](https://github.com/DnDGen/DnDGen.CreatureGen) | Dark Nordic folk: [listen](https://suno.com/s/idhKDWtBG8g26Ar3) · [lyrics and notes](https://github.com/DnDGen/DnDGen.CreatureGen/blob/main/docs/theme-song/README.md) | The bestiary |
 | [CharacterGen](https://github.com/DnDGen/DnDGen.CharacterGen) | Troubadour ballad | One hero's story |
 | [EncounterGen](https://github.com/DnDGen/DnDGen.EncounterGen) | Epic battle theme | Combat |
 | [DungeonGen](https://github.com/DnDGen/DnDGen.DungeonGen) | Dungeon synth | The dungeon crawl |
